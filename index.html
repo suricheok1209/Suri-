@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML5 貪食蛇遊戲</title>
+    <title>HTML5 遊戲合集</title>
     <style>
         * {
             margin: 0;
@@ -278,67 +278,481 @@
             margin-right: 3px;
             border-radius: 50%;
         }
+        
+        /* 遊戲選擇菜單樣式 */
+        .game-menu {
+            background-color: #111;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            max-width: 1000px;
+            width: 100%;
+            border: 1px solid #333;
+        }
+        
+        .game-menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .game-menu-btn {
+            background-color: #222;
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            color: white;
+        }
+        
+        .game-menu-btn:hover {
+            background-color: #333;
+            border-color: #4CAF50;
+            transform: translateY(-5px);
+        }
+        
+        .game-menu-btn.active {
+            background-color: #2d5a2d;
+            border-color: #4CAF50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4CAF50;
+        }
+        
+        .game-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* 遊戲容器樣式 */
+        .game-container {
+            display: none;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .game-container.active {
+            display: block;
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .game-header h2 {
+            color: #4CAF50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-subtitle {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+        
+        .game-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        /* 俄羅斯方塊特定樣式 */
+        .next-piece-container {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .next-piece-container h4 {
+            color: #aaa;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        /* 打磚塊特定樣式 */
+        .lives-container {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .lives-container h4 {
+            color: #aaa;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .lives {
+            font-size: 1.5rem;
+            color: #ff4444;
+        }
+        
+        /* 記憶配對特定樣式 */
+        .memory-board-container {
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background-color: #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+        
+        .memory-card.flipped {
+            background-color: #444;
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background-color: #2d5a2d;
+            cursor: default;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+        
+        .stat-title {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .game-menu-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .game-menu-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .game-content {
+                flex-direction: column;
+            }
+            
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>貪食蛇遊戲</h1>
-        <p class="subtitle">使用方向鍵控制蛇移動，吃到紅色<span class="apple"></span>蘋果會變長</p>
+        <h1>HTML5 遊戲合集</h1>
+        <p class="subtitle">選擇您想玩的遊戲</p>
     </div>
     
-    <div class="game-container">
-        <div class="game-board-container">
-            <canvas id="gameCanvas" width="600" height="600"></canvas>
-            <div class="game-over" id="gameOverScreen">
-                <h2>遊戲結束</h2>
-                <p>最終分數: <span id="finalScore">0</span></p>
-                <button class="button start-button" id="restartButton">重新開始遊戲</button>
-            </div>
+    <!-- 遊戲選擇菜單 -->
+    <div class="game-menu">
+        <div class="game-menu-container">
+            <button class="game-menu-btn active" data-game="snake">
+                <div class="game-icon">🐍</div>
+                <div class="game-title">貪食蛇</div>
+                <div class="game-desc">經典的貪食蛇遊戲</div>
+            </button>
+            <button class="game-menu-btn" data-game="tetris">
+                <div class="game-icon">🧱</div>
+                <div class="game-title">俄羅斯方塊</div>
+                <div class="game-desc">排列方塊消除行</div>
+            </button>
+            <button class="game-menu-btn" data-game="breakout">
+                <div class="game-icon">🎾</div>
+                <div class="game-title">打磚塊</div>
+                <div class="game-desc">用球擊破所有磚塊</div>
+            </button>
+            <button class="game-menu-btn" data-game="memory">
+                <div class="game-icon">🧠</div>
+                <div class="game-title">記憶配對</div>
+                <div class="game-desc">記憶並配對相同的卡片</div>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 遊戲容器 - 貪食蛇遊戲 (預設顯示) -->
+    <div class="game-container active" id="snake-game">
+        <div class="game-header">
+            <h2>貪食蛇遊戲</h2>
+            <p class="game-subtitle">使用方向鍵控制蛇移動，吃到紅色<span class="apple"></span>蘋果會變長</p>
         </div>
         
-        <div class="controls">
-            <div class="score-container">
-                <div class="score-title">分數</div>
-                <div id="score">0</div>
-            </div>
-            
-            <div class="instructions">
-                <h3>遊戲說明</h3>
-                <ul>
-                    <li>使用鍵盤方向鍵控制蛇的移動</li>
-                    <li>吃到紅色<span class="apple"></span>蘋果可以增加分數並讓蛇變長</li>
-                    <li>避免撞到牆壁或自己的身體</li>
-                    <li>蛇越長，遊戲難度越高</li>
-                    <li>每吃一個蘋果得10分</li>
-                </ul>
-            </div>
-            
-            <div class="game-controls">
-                <button class="button start-button" id="startButton">開始遊戲</button>
-                <button class="button" id="pauseButton">暫停遊戲</button>
-                
-                <div class="difficulty-selector">
-                    <label for="difficulty">遊戲速度:</label>
-                    <select id="difficulty">
-                        <option value="150">慢速</option>
-                        <option value="100" selected>中速</option>
-                        <option value="70">快速</option>
-                        <option value="40">極速</option>
-                    </select>
+        <div class="game-content">
+            <div class="game-board-container">
+                <canvas id="gameCanvas" width="600" height="600"></canvas>
+                <div class="game-over" id="gameOverScreen">
+                    <h2>遊戲結束</h2>
+                    <p>最終分數: <span id="finalScore">0</span></p>
+                    <button class="button start-button" id="restartButton">重新開始遊戲</button>
                 </div>
             </div>
             
-            <div class="mobile-controls">
-                <button class="mobile-btn up-btn" id="upBtn">↑</button>
-                <button class="mobile-btn left-btn" id="leftBtn">←</button>
-                <button class="mobile-btn down-btn" id="downBtn">↓</button>
-                <button class="mobile-btn right-btn" id="rightBtn">→</button>
+            <div class="controls">
+                <div class="score-container">
+                    <div class="score-title">分數</div>
+                    <div id="score">0</div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>遊戲說明</h3>
+                    <ul>
+                        <li>使用鍵盤方向鍵控制蛇的移動</li>
+                        <li>吃到紅色<span class="apple"></span>蘋果可以增加分數並讓蛇變長</li>
+                        <li>避免撞到牆壁或自己的身體</li>
+                        <li>蛇越長，遊戲難度越高</li>
+                        <li>每吃一個蘋果得10分</li>
+                    </ul>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="button start-button" id="startButton">開始遊戲</button>
+                    <button class="button" id="pauseButton">暫停遊戲</button>
+                    
+                    <div class="difficulty-selector">
+                        <label for="difficulty">遊戲速度:</label>
+                        <select id="difficulty">
+                            <option value="150">慢速</option>
+                            <option value="100" selected>中速</option>
+                            <option value="70">快速</option>
+                            <option value="40">極速</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mobile-controls">
+                    <button class="mobile-btn up-btn" id="upBtn">↑</button>
+                    <button class="mobile-btn left-btn" id="leftBtn">←</button>
+                    <button class="mobile-btn down-btn" id="downBtn">↓</button>
+                    <button class="mobile-btn right-btn" id="rightBtn">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 遊戲容器 - 俄羅斯方塊遊戲 (隱藏) -->
+    <div class="game-container" id="tetris-game">
+        <div class="game-header">
+            <h2>俄羅斯方塊</h2>
+            <p class="game-subtitle">排列方塊消除完整的行</p>
+        </div>
+        
+        <div class="game-content">
+            <div class="game-board-container">
+                <canvas id="tetrisCanvas" width="300" height="600"></canvas>
+                <div class="game-over" id="tetrisGameOver">
+                    <h2>遊戲結束</h2>
+                    <p>最終分數: <span id="tetrisFinalScore">0</span></p>
+                    <button class="button start-button" id="tetrisRestartButton">重新開始遊戲</button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="score-container">
+                    <div class="score-title">分數</div>
+                    <div id="tetrisScore">0</div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>遊戲說明</h3>
+                    <ul>
+                        <li>使用方向鍵左右移動方塊</li>
+                        <li>上方向鍵旋轉方塊</li>
+                        <li>下方向鍵加速下落</li>
+                        <li>消除一行得100分</li>
+                        <li>同時消除多行有額外加分</li>
+                    </ul>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="button start-button" id="tetrisStartButton">開始遊戲</button>
+                    <button class="button" id="tetrisPauseButton">暫停遊戲</button>
+                    
+                    <div class="difficulty-selector">
+                        <label for="tetrisDifficulty">遊戲速度:</label>
+                        <select id="tetrisDifficulty">
+                            <option value="800">簡單</option>
+                            <option value="500" selected>普通</option>
+                            <option value="300">困難</option>
+                            <option value="150">專家</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="next-piece-container">
+                    <h4>下一個方塊</h4>
+                    <canvas id="nextPieceCanvas" width="100" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 遊戲容器 - 打磚塊遊戲 (隱藏) -->
+    <div class="game-container" id="breakout-game">
+        <div class="game-header">
+            <h2>打磚塊</h2>
+            <p class="game-subtitle">用球擊破所有磚塊</p>
+        </div>
+        
+        <div class="game-content">
+            <div class="game-board-container">
+                <canvas id="breakoutCanvas" width="600" height="400"></canvas>
+                <div class="game-over" id="breakoutGameOver">
+                    <h2>遊戲結束</h2>
+                    <p>最終分數: <span id="breakoutFinalScore">0</span></p>
+                    <button class="button start-button" id="breakoutRestartButton">重新開始遊戲</button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="score-container">
+                    <div class="score-title">分數</div>
+                    <div id="breakoutScore">0</div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>遊戲說明</h3>
+                    <ul>
+                        <li>使用滑鼠或方向鍵移動擋板</li>
+                        <li>用球擊破所有磚塊</li>
+                        <li>每擊破一個磚塊得10分</li>
+                        <li>球掉到底部會失去一條生命</li>
+                        <li>共有3條生命</li>
+                    </ul>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="button start-button" id="breakoutStartButton">開始遊戲</button>
+                    <button class="button" id="breakoutPauseButton">暫停遊戲</button>
+                    
+                    <div class="lives-container">
+                        <h4>生命值</h4>
+                        <div class="lives">❤️ ❤️ ❤️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 遊戲容器 - 記憶配對遊戲 (隱藏) -->
+    <div class="game-container" id="memory-game">
+        <div class="game-header">
+            <h2>記憶配對</h2>
+            <p class="game-subtitle">記憶並配對相同的卡片</p>
+        </div>
+        
+        <div class="game-content">
+            <div class="memory-board-container">
+                <div class="memory-grid" id="memoryGrid">
+                    <!-- 卡片將由 JavaScript 動態生成 -->
+                </div>
+                <div class="game-over" id="memoryGameOver">
+                    <h2>恭喜完成！</h2>
+                    <p>配對次數: <span id="memoryMoves">0</span></p>
+                    <p>花費時間: <span id="memoryTime">0</span> 秒</p>
+                    <button class="button start-button" id="memoryRestartButton">再玩一次</button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="score-container">
+                    <div class="score-title">配對數</div>
+                    <div id="memoryMatches">0/8</div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>遊戲說明</h3>
+                    <ul>
+                        <li>點擊卡片翻面</li>
+                        <li>找到所有相同的卡片配對</li>
+                        <li>每次翻開兩張卡片</li>
+                        <li>配對成功則卡片保持翻開</li>
+                        <li>配對失敗則卡片會翻回去</li>
+                    </ul>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="button start-button" id="memoryStartButton">開始遊戲</button>
+                    
+                    <div class="stats-container">
+                        <div class="stat">
+                            <div class="stat-title">移動次數</div>
+                            <div id="memoryMoveCount">0</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-title">時間</div>
+                            <div id="memoryTimer">0s</div>
+                        </div>
+                    </div>
+                    
+                    <div class="difficulty-selector">
+                        <label for="memoryDifficulty">難度:</label>
+                        <select id="memoryDifficulty">
+                            <option value="8">簡單 (4x4)</option>
+                            <option value="12" selected>普通 (6x4)</option>
+                            <option value="18">困難 (6x6)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
     <div class="footer">
-        <p>HTML5 貪食蛇遊戲 | 使用Canvas製作 | 背景黑色，紅色<span class="apple"></span>蘋果會讓蛇變長</p>
+        <p>HTML5 遊戲合集 | 包含貪食蛇、俄羅斯方塊、打磚塊、記憶配對遊戲</p>
     </div>
 
     <script>
@@ -730,6 +1144,206 @@
         
         // 窗口大小變化時調整畫布
         window.addEventListener('resize', setupCanvas);
+        
+        // ============================================
+        // 遊戲切換功能
+        // ============================================
+        
+        const gameMenuButtons = document.querySelectorAll('.game-menu-btn');
+        const gameContainers = document.querySelectorAll('.game-container');
+        
+        gameMenuButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const gameId = button.getAttribute('data-game');
+                
+                // 更新按鈕狀態
+                gameMenuButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // 顯示對應的遊戲容器
+                gameContainers.forEach(container => {
+                    container.classList.remove('active');
+                });
+                
+                document.getElementById(`${gameId}-game`).classList.add('active');
+            });
+        });
+        
+        // ============================================
+        // 記憶配對遊戲
+        // ============================================
+        
+        const memoryGrid = document.getElementById('memoryGrid');
+        const memoryStartButton = document.getElementById('memoryStartButton');
+        const memoryRestartButton = document.getElementById('memoryRestartButton');
+        const memoryMoveCount = document.getElementById('memoryMoveCount');
+        const memoryTimer = document.getElementById('memoryTimer');
+        const memoryMatches = document.getElementById('memoryMatches');
+        const memoryGameOverScreen = document.getElementById('memoryGameOver');
+        const memoryMoves = document.getElementById('memoryMoves');
+        const memoryTime = document.getElementById('memoryTime');
+        const memoryDifficulty = document.getElementById('memoryDifficulty');
+        
+        let memoryGameRunning = false;
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let totalPairs = 8;
+        let moveCount = 0;
+        let gameTime = 0;
+        let timerInterval;
+        
+        // 卡片圖標
+        const cardIcons = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔'];
+        
+        // 初始化記憶配對遊戲
+        function initMemoryGame() {
+            memoryGrid.innerHTML = '';
+            memoryCards = [];
+            flippedCards = [];
+            matchedPairs = 0;
+            moveCount = 0;
+            gameTime = 0;
+            
+            memoryMoveCount.textContent = '0';
+            memoryTimer.textContent = '0s';
+            memoryMatches.textContent = '0/' + totalPairs;
+            memoryGameOverScreen.style.display = 'none';
+            
+            // 根據難度設置卡片數量
+            const difficulty = parseInt(memoryDifficulty.value);
+            totalPairs = difficulty;
+            const cardCount = totalPairs * 2;
+            
+            // 選擇圖標
+            const selectedIcons = cardIcons.slice(0, totalPairs);
+            const cardValues = [...selectedIcons, ...selectedIcons];
+            
+            // 洗牌
+            shuffleArray(cardValues);
+            
+            // 創建卡片
+            for (let i = 0; i < cardCount; i++) {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = i;
+                card.dataset.value = cardValues[i];
+                card.textContent = '?';
+                
+                card.addEventListener('click', () => flipCard(card));
+                memoryGrid.appendChild(card);
+                memoryCards.push(card);
+            }
+            
+            // 設置網格佈局
+            const columns = totalPairs <= 8 ? 4 : 6;
+            memoryGrid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+            
+            memoryGameRunning = true;
+            memoryStartButton.textContent = '重新開始';
+            
+            // 啟動計時器
+            clearInterval(timerInterval);
+            gameTime = 0;
+            timerInterval = setInterval(() => {
+                gameTime++;
+                memoryTimer.textContent = gameTime + 's';
+            }, 1000);
+        }
+        
+        // 洗牌函數
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // 翻轉卡片
+        function flipCard(card) {
+            if (!memoryGameRunning || flippedCards.length >= 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+            
+            card.classList.add('flipped');
+            card.textContent = card.dataset.value;
+            flippedCards.push(card);
+            
+            if (flippedCards.length === 2) {
+                moveCount++;
+                memoryMoveCount.textContent = moveCount;
+                
+                setTimeout(checkForMatch, 500);
+            }
+        }
+        
+        // 檢查是否匹配
+        function checkForMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.dataset.value === card2.dataset.value) {
+                // 匹配成功
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                memoryMatches.textContent = matchedPairs + '/' + totalPairs;
+                
+                // 檢查遊戲是否完成
+                if (matchedPairs === totalPairs) {
+                    memoryGameComplete();
+                }
+            } else {
+                // 匹配失敗，翻回去
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.textContent = '?';
+                card2.textContent = '?';
+            }
+            
+            flippedCards = [];
+        }
+        
+        // 遊戲完成
+        function memoryGameComplete() {
+            memoryGameRunning = false;
+            clearInterval(timerInterval);
+            
+            memoryMoves.textContent = moveCount;
+            memoryTime.textContent = gameTime;
+            memoryGameOverScreen.style.display = 'flex';
+        }
+        
+        // 事件監聽器
+        memoryStartButton.addEventListener('click', initMemoryGame);
+        memoryRestartButton.addEventListener('click', initMemoryGame);
+        
+        memoryDifficulty.addEventListener('change', initMemoryGame);
+        
+        // 初始化記憶配對遊戲
+        initMemoryGame();
+        
+        // ============================================
+        // 其他遊戲的佔位符功能
+        // ============================================
+        
+        // 俄羅斯方塊遊戲按鈕功能
+        document.getElementById('tetrisStartButton').addEventListener('click', function() {
+            alert('俄羅斯方塊遊戲正在開發中，即將推出！');
+        });
+        
+        document.getElementById('tetrisRestartButton').addEventListener('click', function() {
+            alert('俄羅斯方塊遊戲正在開發中，即將推出！');
+        });
+        
+        // 打磚塊遊戲按鈕功能
+        document.getElementById('breakoutStartButton').addEventListener('click', function() {
+            alert('打磚塊遊戲正在開發中，即將推出！');
+        });
+        
+        document.getElementById('breakoutRestartButton').addEventListener('click', function() {
+            alert('打磚塊遊戲正在開發中，即將推出！');
+        });
     </script>
 </body>
 </html>
